@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "875806758070",
+    "project_id": "bloc-crashlytics",
+    "storage_bucket": "bloc-crashlytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875806758070:android:f7905abec06d13fc1fc217",
+        "android_client_info": {
+          "package_name": "com.virakapp.crashlytics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875806758070-j7oq7r9p54b20ndo4snif39fa8l44744.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGSE9VOi212uXehysMceEBeknN160Bgr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875806758070-j7oq7r9p54b20ndo4snif39fa8l44744.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "875806758070-2kv44n0ds46a5l0kl1in1l1q4usv4p02.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learnBloc"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

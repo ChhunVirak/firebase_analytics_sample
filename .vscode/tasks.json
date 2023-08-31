@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"apk"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"label": "flutter: flutter build apk",
+			"detail": ""
+		},
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"apk",
+				"--no-tree-shake-icons"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"label": "flutter: flutter build apk --no-tree-shake-icons",
+			"detail": "Font asset \"MaterialIcons-Regular.otf\" was tree-shaken, reducing it from 1645184 to 4324 bytes (99.7% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app"
+		}
+	]
+}
