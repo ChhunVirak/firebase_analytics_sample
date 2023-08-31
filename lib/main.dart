@@ -8,8 +8,6 @@ import 'package:learn_bloc/firebase_options.dart';
 import 'package:learn_bloc/constant/strings.dart';
 import 'package:learn_bloc/modules/dashboard/screens/dasboad_screen.dart';
 import 'package:learn_bloc/modules/splashscreen/screens/splash_screen.dart';
-import 'package:learn_bloc/utils/services/asset_manager/network_asset_manager.dart';
-
 import 'package:learn_bloc/utils/services/firebae/firebase_analytics_service.dart';
 import 'package:learn_bloc/utils/services/local_storage_service.dart';
 import 'package:learn_bloc/utils/ui/animations/router/push_animation_pageroute.dart';
@@ -28,7 +26,7 @@ void main() async {
   //   return true;
   // };
   await LocalSorageService().initPrefs();
-  await NetworkAssetManager().init();
+  // await NetworkAssetManager().init();
 
   runApp(
     const MyApp(),
@@ -44,7 +42,7 @@ class MyApp extends StatelessWidget {
         MediaQuery.of(context).platformBrightness == Brightness.light;
     return BlocProvider(
       create: (_) => SwitchThemeCubit(
-        initialTheme: !plateformIsLightMode ? lightTheme : darkTheme,
+        initialTheme: plateformIsLightMode ? lightTheme : darkTheme,
       ),
       child: Builder(
         builder: (blocContext) {
