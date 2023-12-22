@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:learn_bloc/config/ui_settings.dart';
-import 'package:learn_bloc/utils/extensions/theme_extension.dart';
+import '../config/ui_settings.dart';
+import '../utils/extensions/theme_extension.dart';
 
 class Menu extends StatefulWidget {
   final AnimationController animationController;

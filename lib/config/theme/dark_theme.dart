@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_bloc/config/theme/page_transition.dart';
+import 'page_transition.dart';
 
 ThemeData darkTheme = ThemeData.dark(
   useMaterial3: true,

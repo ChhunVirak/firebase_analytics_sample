@@ -35,17 +35,23 @@ dependencies:
   equatable: ^2.0.5
   firebase_analytics: ^10.4.4
   firebase_core: ^2.15.0
-  firebase_crashlytics: ^3.3.4
+  firebase_crashlytics: ^3.4.2
   # firebase_in_app_messaging: ^0.7.3+5
   flutter:
     sdk: flutter
   flutter_animate: ^4.2.0+1
   flutter_bloc: ^8.1.1
+  home_widget: ^0.3.0
   http: ^1.1.0
   intl: ^0.18.1
   path_provider: ^2.1.0
   shared_preferences: ^2.2.0
   uuid: ^3.0.7
+  base_template:
+    path: /Users/chhunvirak/personal_project/base_template
+  url_launcher: ^6.1.14
+  # cloud_firestore: ^4.9.3
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   bloc_test: ^9.1.3
@@ -62,8 +68,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -6,8 +6,6 @@ part 'card_state.dart';
 
 class CardBloc extends Bloc<CardEvent, CardState> {
   CardBloc() : super(CardInitial()) {
-    on<CardEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<CardEvent>((event, emit) {});
   }
 }

@@ -68,7 +68,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
                 Padding(
                   // duration: 50.ms,
                   padding: EdgeInsets.only(left: 20 * _animation.value),
-                  child: (showLoading)
+                  child: showLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:learn_bloc/modules/payment/screens/success_screen.dart';
-import 'package:learn_bloc/utils/ui/dialogs/loading_dialog.dart';
+import 'success_screen.dart';
+import '../../../utils/ui/dialogs/loading_dialog.dart';
 
 import '../../../utils/ui/dialogs/pincode_dialog.dart';
 import '../bloc/payment_bloc.dart';
@@ -30,6 +30,7 @@ class MakePaymentScreen extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
+              settings: RouteSettings(name: SuccessPayment.routeName),
               builder: (_) => const SuccessPayment(),
             ),
             (route) => false,
@@ -77,7 +78,7 @@ class MakePaymentScreen extends StatelessWidget {
                   }
                 },
                 child: const Text('Pay'),
-              )
+              ),
             ],
           ),
         ),

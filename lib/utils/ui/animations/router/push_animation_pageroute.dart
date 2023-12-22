@@ -6,6 +6,7 @@ import '../../../../widgets/stateless_screen_route_widget.dart';
 class AppPageRoute extends PageRouteBuilder {
   final Widget page;
   final RouteSettings? routeSettings;
+  final String route;
 
   static String getRouteName(Widget page) {
     ///for `BlocProvide` will take child class in provider as screen name
@@ -24,11 +25,11 @@ class AppPageRoute extends PageRouteBuilder {
   AppPageRoute({
     required this.page,
     this.routeSettings,
+    this.route = '',
   }) : super(
-          settings: routeSettings ??
-              RouteSettings(
-                name: getRouteName(page),
-              ),
+          settings: RouteSettings(
+            name: route,
+          ),
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,

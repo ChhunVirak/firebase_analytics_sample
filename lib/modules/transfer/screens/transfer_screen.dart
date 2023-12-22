@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/modules/transfer/bloc/transfer_bloc.dart';
-import 'package:learn_bloc/modules/transfer/screens/make_transfer.dart';
+import '../bloc/transfer_bloc.dart';
+import 'make_transfer.dart';
 
 class TransferScreen extends StatefulWidget {
   const TransferScreen({super.key});

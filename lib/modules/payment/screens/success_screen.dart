@@ -4,6 +4,7 @@ import '../../../utils/ui/animations/router/no_transition_pageroute_builder.dart
 import '../../dashboard/screens/dasboad_screen.dart';
 
 class SuccessPayment extends StatelessWidget {
+  static String routeName = 'payment';
   const SuccessPayment({super.key});
 
   @override
@@ -44,7 +45,7 @@ class SuccessPayment extends StatelessWidget {
                   );
                 },
                 child: const Text('Done'),
-              )
+              ),
             ],
           ),
         ),

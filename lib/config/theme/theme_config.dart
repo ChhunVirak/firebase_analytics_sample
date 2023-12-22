@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:learn_bloc/config/theme/dark_theme.dart';
-import 'package:learn_bloc/config/theme/light_theme.dart';
-import 'package:learn_bloc/utils/services/firebae/firebase_analytics_service.dart';
+import 'dark_theme.dart';
+import 'light_theme.dart';
+import '../../utils/services/firebae/firebase_analytics_service.dart';
 
 class SwitchThemeCubit extends Cubit<ThemeData> {
   /// Constructor.

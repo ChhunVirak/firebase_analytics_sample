@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:learn_bloc/modules/transfer/models/transfer_model.dart';
-import 'package:learn_bloc/modules/transfer/repositories/transfer_repo.dart';
+import '../models/transfer_model.dart';
+import '../repositories/transfer_repo.dart';
 
 part 'transfer_event.dart';
 part 'transfer_state.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/main.dart';
-import 'package:learn_bloc/modules/payment/bloc/payment_bloc.dart';
-import 'package:learn_bloc/modules/register/screens/register_screen.dart';
-import 'package:learn_bloc/modules/transfer/bloc/transfer_bloc.dart';
+import '../../main.dart';
+import '../../modules/payment/bloc/payment_bloc.dart';
+import '../../modules/register/screens/register_screen.dart';
+import '../../modules/transfer/bloc/transfer_bloc.dart';
 
 import '../../modules/card/screens/card_screen.dart';
 import '../../modules/dashboard/screens/dasboad_screen.dart';
-import '../../modules/payment/screens/payment_screen.dart';
+import '../../modules/payment/screens/payment_listing_screen.dart';
 import '../../modules/transfer/screens/transfer_screen.dart';
 import '../../modules/user/screens/user_screen.dart';
 import '../../modules/splashscreen/screens/splash_screen.dart';
@@ -27,7 +27,7 @@ class AppRoute {
         ),
     '/payment': (_) => BlocProvider<PaymentBloc>(
           create: (_) => PaymentBloc(),
-          child: const PaymentScreen(),
+          child: const PaymentListingScreen(),
         ),
     // '/make-payment': (_) => BlocProvider<PaymentBloc>(
     //       create: (context) => context.read<PaymentBloc>(),
@@ -59,7 +59,7 @@ class AppRoute {
                     );
                   },
                   child: const Text('Home'),
-                )
+                ),
               ],
             ),
           ),

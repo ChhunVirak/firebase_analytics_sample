@@ -9,9 +9,9 @@ class UserScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('User Screen'),
       ),
-      body: Column(children: [
-        
-      ],),
+      body: const Column(
+        children: [],
+      ),
     );
   }
 }

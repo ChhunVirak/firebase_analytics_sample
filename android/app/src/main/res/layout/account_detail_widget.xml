@@ -1,0 +1,184 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:theme="@style/Theme.Android.AccountDetailTheme"
+    android:gravity="center">
+
+    <LinearLayout
+        style="@style/Widget.Android.AppWidget.Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:paddingLeft="0dp">
+
+        <!--bic bank logo and action button-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="fill_vertical"
+            android:orientation="vertical">
+
+            <!--bic bank logo-->
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/default_desc"
+                android:src="@drawable/bicbank_logo_vertical" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:orientation="vertical">
+
+                <!--account information-->
+                <LinearLayout
+                    android:id="@+id/btn_all_masking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:orientation="horizontal">
+
+                        <!--Account Number Here-->
+                        <TextView
+                            android:id="@+id/label_account_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="100070723"
+                            android:textColor="#C32B2A"
+                            android:textFontWeight="700"
+                            android:textSize="15sp"
+                            tools:targetApi="p" />
+
+                        <!--Masking button here-->
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/label_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="start"
+                        android:text="CHHOEUNG CHHUN VIRAK"
+                        android:textColor="#4B4B4B"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!--ACTION BUTTON-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_scan_qr"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_scan_qr_icon_bg"
+                        android:backgroundTint="@null"
+
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingTop="20dp"
+                        android:text="@string/button_qr"
+                        android:textAllCaps="false"
+                        android:textColor="#C32B2A"
+                        android:textFontWeight="350"
+                        android:textSize="10sp"
+                        tools:targetApi="p" />
+
+                    <Button
+                        android:id="@+id/btn_share_qr"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_share_qr_bg"
+                        android:backgroundTint="@null"
+
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingTop="20dp"
+                        android:text="@string/button_share_qr"
+                        android:textAllCaps="false"
+                        android:textColor="#C32B2A"
+                        android:textFontWeight="350"
+                        android:textSize="10sp"
+                        tools:targetApi="p" />
+
+                    <Button
+                        android:id="@+id/btn_my_account"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_my_account_qr_icon_bg"
+                        android:backgroundTint="@null"
+
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingTop="20dp"
+                        android:text="@string/button_my_account"
+                        android:textAllCaps="false"
+                        android:textColor="#C32B2A"
+                        android:textFontWeight="350"
+                        android:textSize="10sp"
+                        android:textStyle="normal"
+                        tools:targetApi="p" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!--vertical divider-->
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/default_desc"
+            android:src="@drawable/vertical_divider" />
+
+
+        <!--default bic bank qr-->
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/ic_launcher" />
+
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/widgets.dart';
 
 final class AnalyticsService {
   static final AnalyticsService _instance = AnalyticsService._internal();
@@ -10,13 +11,10 @@ final class AnalyticsService {
 
   static final _analytics = FirebaseAnalytics.instance;
 
-  setData() {
-    // _analytics.
-  }
-
   ///Set current user id
   Future<void> setUserId(String? id) async {
     await _analytics.setUserId(id: id);
+    _analytics.logScreenView();
   }
 
   ///Set extra property to current user
@@ -41,7 +39,6 @@ final class AnalyticsService {
     String? screenClass,
     required String screenName,
   }) async {
-    _analytics.logAddPaymentInfo();
     await _analytics.logScreenView(
       screenName: screenName,
       screenClass: screenClass,
@@ -59,16 +56,17 @@ final class AnalyticsService {
   /// This event signifies a screen view. Use this when a screen transition occurs.
   Future<void> logScreenViewWithParam({
     required String screenName,
-    required String screenClass,
-    Map<String, dynamic>? parameters,
+    Map<String, Object?>? parameters,
   }) async {
+    final param = <String, Object?>{
+      // 'screen_name': screenName,
+      // 'screen_calss': 'Flutter',
+      'screen_type': 'bic_payment',
+    };
+
     await _analytics.logEvent(
       name: 'screen_view',
-      parameters: <String, dynamic>{
-        'firebase_screen': screenName,
-        'firebase_screen_class': screenClass,
-        ...parameters ?? {},
-      },
+      parameters: param,
     );
   }
 
@@ -87,4 +85,23 @@ final class AnalyticsService {
   FirebaseAnalyticsObserver get firebaseAnalyticsObserver =>
       FirebaseAnalyticsObserver(analytics: _analytics);
 }
- 
+
+class DebugObserver extends RouteObserver<ModalRoute<dynamic>> {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    debugPrint('PUSH : $previousRoute');
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    debugPrint('Replace : ${newRoute?.settings.name}');
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    debugPrint('POP : ${previousRoute?.settings.name}');
+  }
+}

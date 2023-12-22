@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/modules/dashboard/screens/dasboad_screen.dart';
-import 'package:learn_bloc/modules/register/bloc/register_bloc.dart';
-import 'package:learn_bloc/utils/ui/animations/router/push_animation_pageroute.dart';
+import '../../dashboard/screens/dasboad_screen.dart';
+import '../bloc/register_bloc.dart';
+import '../../../utils/ui/animations/router/push_animation_pageroute.dart';
 
 import '../../../utils/ui/dialogs/loading_dialog.dart';
 import '../../../widgets/custom_textfield.dart';
@@ -86,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Register',
                     style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
               ],
             ),
           ),

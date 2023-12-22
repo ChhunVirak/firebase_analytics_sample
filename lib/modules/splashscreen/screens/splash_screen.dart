@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/modules/splashscreen/bloc/splashscreen_bloc.dart';
-import 'package:learn_bloc/utils/ui/animations/router/push_animation_pageroute.dart';
+import 'package:home_widget/home_widget.dart';
+import '../../../main.dart';
+import '../bloc/splashscreen_bloc.dart';
+import '../../../utils/ui/animations/router/push_animation_pageroute.dart';
 
 import '../../../utils/ui/animations/router/no_transition_pageroute_builder.dart';
 import '../../dashboard/screens/dasboad_screen.dart';
@@ -22,7 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     _registerBloc.add(CheckUserEvent());
+
     super.initState();
+    HomeWidget.setAppGroupId(appGroupId);
   }
 
   @override
@@ -67,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   : CircularProgressIndicator(
                       color: Colors.indigo[900],
                       // value: 1,
-                    )
+                    ),
             ],
           ),
         ),

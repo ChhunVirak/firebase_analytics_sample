@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../../utils/services/firebae/firebase_analytics_service.dart';
 
 import '../../../utils/services/local_storage_service.dart';
 
@@ -18,12 +19,14 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
     CheckUserEvent event,
     Emitter<SplashscreenState> emit,
   ) async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 1));
 
     final id = _localSorageService.getString('id');
     final user = _localSorageService.getString('user');
 
     if (id != null && id.isNotEmpty && user != null && user.isNotEmpty) {
+      AnalyticsService().setUserId(id);
+
       emit(HasUserState());
     } else {
       emit(NoUserState());

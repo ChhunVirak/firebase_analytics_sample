@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:learn_bloc/modules/payment/models/payment_model.dart';
-import 'package:learn_bloc/modules/payment/repositories/payment_repo.dart';
-import 'package:learn_bloc/utils/services/firebae/firebase_analytics_service.dart';
+import '../models/payment_model.dart';
+import '../repositories/payment_repo.dart';
+import '../../../utils/services/firebae/firebase_analytics_service.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -36,7 +36,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     _analyticsService.logCustomEvent(
       evetName: 'make_payment',
       parameters: {
-        'pay_to': event.paymentName,
+        'payment_name': event.paymentName,
         'cost': event.cost,
       },
     );

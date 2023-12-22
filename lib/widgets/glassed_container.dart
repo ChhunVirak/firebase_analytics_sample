@@ -27,7 +27,7 @@ class GlassMorphism extends StatelessWidget {
                 sigmaY: 3,
               ),
               child: ColoredBox(
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withOpacity(0.1),
 
                 // alignment: Alignment.center,
               ),

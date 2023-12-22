@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:learn_bloc/modules/payment/screens/make_payment_screen.dart';
-
+import 'make_payment_screen.dart';
 import '../bloc/payment_bloc.dart';
 
-class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+class PaymentListingScreen extends StatefulWidget {
+  const PaymentListingScreen({super.key});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  State<PaymentListingScreen> createState() => _PaymentListingScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentListingScreenState extends State<PaymentListingScreen> {
   @override
   void initState() {
+    // AnalyticsService().logScreenViewWithParam(
+    //   screenName: '/all_payment_screen',
+    //   parameters: {
+    //     'screen_type': 'all_payments',
+    //   },
+    // );
     context.read<PaymentBloc>().add(GetPaymentListEvent());
     super.initState();
   }
@@ -23,7 +28,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payment Screen'),
+        title: const Text('Payment Listing Screen'),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.only(bottom: 20),

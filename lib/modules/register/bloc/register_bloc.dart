@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:learn_bloc/utils/services/firebae/firebase_analytics_service.dart';
-import 'package:learn_bloc/utils/services/local_storage_service.dart';
+import '../../../utils/services/firebae/firebase_analytics_service.dart';
+import '../../../utils/services/local_storage_service.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

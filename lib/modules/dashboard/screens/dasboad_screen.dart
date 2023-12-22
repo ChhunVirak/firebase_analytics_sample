@@ -1,22 +1,27 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
+import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:learn_bloc/config/routes/routes.dart';
-import 'package:learn_bloc/config/theme/theme_config.dart';
-import 'package:learn_bloc/config/ui_settings.dart';
-import 'package:learn_bloc/utils/extensions/theme_extension.dart';
-import 'package:learn_bloc/utils/services/asset_manager/network_asset_manager.dart';
-
-import 'package:learn_bloc/utils/services/local_storage_service.dart';
-import 'package:learn_bloc/widgets/glassed_container.dart';
-
-import '../../../config/theme/dark_theme.dart';
-import '../../../utils/ui/animations/router/push_animation_pageroute.dart';
-import '../../../utils/ui/dialogs/exit_app_dialog.dart';
+import '../../../config/theme/theme_config.dart';
+import '../../../config/ui_settings.dart';
+import '../../../utils/extensions/theme_extension.dart';
+import '../../../utils/services/firebae/firebase_analytics_service.dart';
+import '../../../utils/services/local_storage_service.dart';
+import '../../../widgets/glassed_container.dart';
 import '../../../widgets/menu.dart';
+import '../../payment/bloc/payment_bloc.dart';
+import '../../payment/screens/payment_listing_screen.dart';
+import '../../photo_editor/screen/editor_home_screen.dart';
+import '../../../utils/extensions/logger_extension.dart';
+import '../../../config/theme/dark_theme.dart';
+import '../../../utils/ui/dialogs/exit_app_dialog.dart';
+import 'package:http/http.dart' as http;
+
+const url =
+    'https://digi-uat.bicbank.com.kh/qr/generate?accountNumber=100070723&currency=USD&amount=0';
 
 const menu = <MenuModel>[
   MenuModel(
@@ -59,6 +64,7 @@ class _DashBoardState extends State<DashBoard>
 
   @override
   void initState() {
+    show();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -67,11 +73,26 @@ class _DashBoardState extends State<DashBoard>
     super.initState();
   }
 
-  final imgUtil = NetworkAssetManager();
+  void show() {
+    final views = ui.PlatformDispatcher.instance.views;
+    views.length.log();
+    for (var element in views) {
+      element.display.size.log();
+    }
+  }
+
+  Future<Uint8List?> getImage() async {
+    final data = await http.get(Uri.parse(url));
+    if (data.statusCode == 200) {
+      debugPrint(data.bodyBytes.toString());
+      return data.bodyBytes;
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = context.getSize;
     return WillPopScope(
       onWillPop: () async {
         showExitAppDialog(context);
@@ -80,7 +101,7 @@ class _DashBoardState extends State<DashBoard>
       child: Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
-        fit: StackFit.loose,
+        // fit: StackFit.loose,
         // alignment: Alignment.center,
         children: [
           SizedBox(
@@ -103,19 +124,18 @@ class _DashBoardState extends State<DashBoard>
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               title: const Text('BIC Mobile'),
+              titleTextStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
               backgroundColor: Colors.transparent,
             ),
             floatingActionButton: Builder(
               builder: (context) => FloatingActionButton(
                 onPressed: () async {
-                  // final image = await imgUtil.saveImage(
-                  //   imageUrl:
-                  //       'https://cdn-icons-png.flaticon.com/512/2830/2830155.png',
-                  //   imageName: 'bank.png',
-                  // );
-                  // ScaffoldMessenger.of(context)
-                  //     .showSnackBar(SnackBar(content: Text(image)));
-                  context.read<SwitchThemeCubit>().switchTheme();
+                  throw Exception('This Error Message from Flutter user 13');
+                  // context.read<SwitchThemeCubit>().switchTheme();
                 },
                 child: context.watch<SwitchThemeCubit>().state == darkTheme
                     ? const Icon(
@@ -127,94 +147,128 @@ class _DashBoardState extends State<DashBoard>
                       ),
               ),
             ),
-            body: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: [
-                GlassMorphism(
-                  child: Container(
-                    width: double.infinity,
-                    margin: defaultPaddingValue,
-                    padding: defaultPaddingValue,
-                    decoration: BoxDecoration(
-                      color: context.cardColor,
-                      borderRadius: innerBorderRadius,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Good Morning! ${LocalSorageService().getString('user')}',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          'ID > ${LocalSorageService().getString('id')}',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          DateFormat.yMMMMEEEEd()
-                              .format(DateTime.now())
-                              .toString(),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                GlassMorphism(
-                  child: GridView.builder(
-                    padding: defaultPaddingValue,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: gridSpacing,
-                      mainAxisSpacing: gridSpacing,
-                    ),
-                    itemCount: menu.length,
-                    itemBuilder: (_, index) {
-                      return Menu(
-                        animationController: _animationController,
-                        onTap: () {
-                          if (_animationController.value != 0) {
-                            _animationController.animateTo(0);
-                            return;
-                          }
-                          Navigator.of(context).push(
-                            AppPageRoute(
-                              page: AppRoute.routes[menu[index].routeName]!
-                                  .call(context),
+            body: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  GlassMorphism(
+                    child: Container(
+                      width: double.infinity,
+                      margin: defaultPaddingValue,
+                      padding: defaultPaddingValue,
+                      decoration: BoxDecoration(
+                        color: context.cardColor,
+                        borderRadius: innerBorderRadius,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Good Morning! ${LocalSorageService().getString('user')}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
                             ),
-                          );
-                        },
-                        onLongPressed: () {
-                          if (_animationController.isAnimating) {
-                            _animationController.animateTo(0);
-                            return;
-                          }
-                          _animationController.animateTo(1);
-                          _animationController.repeat(
-                            reverse: true,
-                          );
-
-                          // Navigator.of(context).pushNamed(menu[index].routeName);
-                        },
-                        text: menu[index].title,
-                      );
-                    },
+                          ),
+                          Text(
+                            'ID > ${LocalSorageService().getString('id')}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            DateFormat.yMMMMEEEEd()
+                                .format(DateTime.now())
+                                .toString(),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  GlassMorphism(
+                    child: GridView.builder(
+                      padding: defaultPaddingValue,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: gridSpacing,
+                        mainAxisSpacing: gridSpacing,
+                      ),
+                      itemCount: menu.length,
+                      itemBuilder: (_, index) {
+                        return Menu(
+                          animationController: _animationController,
+                          onTap: () {
+                            if (_animationController.value != 0) {
+                              _animationController.animateTo(0);
+                              return;
+                            }
+                            AnalyticsService().logScreenViewWithParam(
+                              screenName: 'payment_listing_screen',
+                              parameters: {
+                                'screen_type': 'all_payments',
+                              },
+                            );
+
+                            // throw Exception('This is sample Error');
+                            Navigator.of(context).push(
+                              // AppPageRoute(
+                              //   page: AppRoute.routes[menu[index].routeName]!
+                              //       .call(context),
+                              // ),
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => PaymentBloc(),
+                                  child: const PaymentListingScreen(),
+                                ),
+                              ),
+                            );
+                          },
+                          onLongPressed: () {
+                            // if (_animationController.isAnimating) {
+                            //   _animationController.animateTo(0);
+                            //   return;
+                            // }
+                            // _animationController.animateTo(1);
+                            // _animationController.repeat(
+                            //   reverse: true,
+                            // );
+
+                            // Navigator.of(context).pushNamed(menu[index].routeName);
+                          },
+                          text: menu[index].title,
+                        );
+                      },
+                    ),
+                  ),
+                  ButtonBar(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          throw Exception(
+                              'This is sample Error on Android User 02');
+                        },
+                        child: const Text('Error Devided by 0'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          final num = int.parse('TasdasEXT');
+                        },
+                        child: const Text('Parse Text'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -223,294 +277,84 @@ class _DashBoardState extends State<DashBoard>
   }
 }
 
-// class Colored extends CustomPainter {
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final random = v.SimplexNoise();
-//     const frames = 90;
-//     canvas.drawPaint(Paint()..color = Colors.black87);
+class QrWidget extends StatelessWidget {
+  const QrWidget({
+    super.key,
+    required this.size,
+    required this.img,
+  });
 
-//     for (double i = 10; i < frames; i += .1) {
-//       canvas.translate(i % .3, i % .6);
-//       canvas.save();
-//       canvas.rotate(pi / i * 25);
+  final Size size;
+  final String img;
 
-//       final area = Offset(i, i) & Size(i * 10, i * 10);
-
-//       // Blue trail is made of rectangle
-//       canvas.drawRect(
-//         area,
-//         Paint()
-//           ..filterQuality =
-//               FilterQuality.high // Change this to lower render time
-//           ..blendMode =
-//               BlendMode.screen // Remove this to see the natural drawing shape
-//           ..color =
-//               // Addition of Opacity gives you the fading effect from dark to light
-//               Colors.blue.withRed(i.toInt() * 20 % 11).withOpacity(i / 850),
-//       );
-
-//       // Tail particles effect
-
-//       // Change this to add more fibers
-//       final int tailFibers = (i * 1.5).toInt();
-
-//       for (double d = 0; d < area.width; d += tailFibers) {
-//         for (double e = 0; e < area.height; e += tailFibers) {
-//           final n = random.noise2D(d, e);
-//           final tail = exp(i / 50) - 5;
-//           final tailWidth = .2 + (i * .11 * n);
-//           canvas.drawCircle(
-//             Offset(d, e),
-//             tailWidth,
-//             Paint()
-//               ..color = Colors.red.withOpacity(.4)
-//               ..isAntiAlias = true // Change this to lower render time
-//               // Particles accelerate as they fall so we change the blur size for movement effect
-//               ..imageFilter = ImageFilter.blur(sigmaX: tail, sigmaY: 0)
-//               ..filterQuality =
-//                   FilterQuality.high // Change this to lower render time
-//               ..blendMode = BlendMode.screen,
-//           ); // Remove this to see the natural drawing shape
-//         }
-//       }
-//       canvas.restore();
-//     }
-//   }
-
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) => true;
-// }
-
-
-/*
-class BackgroundWidget extends StatefulWidget {
-  final Widget child;
-  const BackgroundWidget({super.key, required this.child});
-
-  @override
-  State<BackgroundWidget> createState() => _BackgroundWidgetState();
-}
-
-class _BackgroundWidgetState extends State<BackgroundWidget>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 6));
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _controller.repeat(reverse: true);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.removeStatusListener((status) {});
-    _controller.dispose();
-
-    super.dispose();
-  }
-
-  late AnimationController _controller;
-  late Animation<double> _animation;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) {
-              return CustomPaint(
-                painter: BackgroundPainter(
-                  _animation,
-                ),
-                child: Container(),
-              );
-            },
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
-            child: Container(
-              color: Colors.black.withOpacity(0.1),
+    final khQrHeight = size.width - 40;
+    final khQrWidth = khQrHeight * 8 / 9;
+    final qrWidth = khQrWidth * 0.8;
+    return Container(
+      width: size.width,
+      height: size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadiusDirectional.circular(30),
+        color: Colors.white,
+      ),
+      alignment: Alignment.center,
+      child: Container(
+        width: khQrWidth,
+        height: khQrHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusDirectional.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.16),
+              spreadRadius: 0,
+              blurRadius: 21,
             ),
-          ),
-          widget.child,
-        ],
-      ),
-    );
-  }
-}
-
-class BackgroundPainter extends CustomPainter {
-  final Animation<double> animation;
-
-  BackgroundPainter(this.animation);
-  Offset getOffset(Path path) {
-    final pms = path.computeMetrics(forceClosed: false).elementAt(0);
-    final length = pms.length;
-    final offset = pms.getTangentForOffset(length * animation.value)!.position;
-    return offset;
-  }
-
-  // Offset getOffset(Path path) {
-  //   final pms = path.computeMetrics(forceClosed: false).elementAt(0);
-  //   final length = pms.length;
-  //   final offset = pms.getTangentForOffset(length * animation.value)!.position;
-  //   return offset;
-  // }
-
-  void drawSquare(Canvas canvas, Size size) {
-    final paint1 = Paint();
-    paint1.color = Colors.blue.shade300;
-    paint1.maskFilter = const MaskFilter.blur(BlurStyle.normal, 100);
-    paint1.style = PaintingStyle.fill;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(size.width * 0.75, 100),
-          width: 300,
-          height: 300,
+          ],
         ),
-        const Radius.circular(20),
+        // alignment: Alignment.center,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Container(
+          color: const Color(0xffE1232E),
+          child: Column(
+            children: [
+              SizedBox(
+                height: khQrHeight * .12,
+                // padding: const EdgeInsets.symmetric(vertical: 17),
+                child: Center(
+                  child: Image.network(
+                    'https://donate.raksakoma.org/wp-content/themes/charityfoundation-child/img/KHQR%20Logo.png',
+                    height: (khQrHeight * .12) / 3,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Material(
+                  surfaceTintColor: Colors.transparent,
+                  clipBehavior: Clip.hardEdge,
+                  shape: const BeveledRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    alignment: Alignment.center,
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.contain,
+                      width: qrWidth,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      paint1,
     );
-  }
-
-  void drawEllipse(Canvas canvas, Size size, Paint paint) {
-    final path = Path();
-    paint.color = Colors.purple;
-    paint.style = PaintingStyle.stroke;
-    path.moveTo(size.width * 0.4, -100);
-    path.quadraticBezierTo(
-      size.width * 0.8,
-      size.height * 0.6,
-      size.width * 1.2,
-      size.height * 0.4,
-    );
-    // canvas.drawPath(path, paint);
-
-    paint.style = PaintingStyle.fill;
-    canvas.drawOval(
-      Rect.fromCenter(
-        center: getOffset(path),
-        width: 450,
-        height: 250,
-      ),
-      paint,
-    );
-  }
-
-  void drawTriangle(Canvas canvas, Size size, paint) {
-    paint.color = Colors.green;
-    final path = Path();
-    paint.style = PaintingStyle.stroke;
-    paint.strokeWidth = 10.0;
-    path.moveTo(-100.0, size.height * 0.5);
-    path.quadraticBezierTo(
-      300,
-      size.height * 0.7,
-      size.width,
-      size.height * 1.2,
-    );
-    // canvas.drawPath(path, paint);
-    paint.style = PaintingStyle.fill;
-
-    // draw triangle
-    final offset = getOffset(path);
-    canvas.drawPath(
-      Path()
-        ..moveTo(offset.dx, offset.dy)
-        ..lineTo(offset.dx + 450, offset.dy + 150)
-        ..lineTo(offset.dx + 250, offset.dy - 500)
-        ..close(),
-      paint,
-    );
-  }
-
-  void drawCircle(Canvas canvas, Size size, Paint paint) {
-    paint.color = Colors.orange;
-    Path path = Path();
-    paint.style = PaintingStyle.stroke;
-    paint.strokeWidth = 10.0;
-    path.moveTo(size.width * 1.1, size.height / 4);
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height * 1.0,
-      -100,
-      size.height / 4,
-    );
-    // canvas.drawPath((path), paint);
-    paint.style = PaintingStyle.fill;
-    final offset = getOffset(path);
-    canvas.drawCircle(offset, 150, paint);
-  }
-
-  void drawAbstractShapes(Canvas canvas, Size size) {
-    Path path = Path();
-    final paint = Paint();
-    path.moveTo(size.width * 1.2, 0);
-    path.quadraticBezierTo(
-      size.width * 1.2,
-      300,
-      size.width * 0.4,
-      size.height * 0.6,
-    );
-    path.quadraticBezierTo(
-      size.width * 0.1,
-      size.height * 0.7,
-      -100,
-      size.height * 1.2,
-    );
-    path.lineTo(-50, -50);
-    path.close();
-    paint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 100);
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      paint
-        ..color = Colors.purple.shade200
-        ..style = PaintingStyle.fill,
-    );
-    // canvas.drawPath(
-    //   path,
-    //   paint
-    //     ..color = Colors.purple.shade200
-    //     ..style = PaintingStyle.fill,
-    // );
-    drawSquare(canvas, size);
-  }
-
-  void drawContrastingBlobs(Canvas canvas, Size size, Paint paint) {
-    paint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 30);
-    paint.blendMode = BlendMode.overlay;
-    drawCircle(canvas, size, paint);
-    drawTriangle(canvas, size, paint);
-    drawEllipse(canvas, size, paint);
-  }
-
-  void paintBackground(Canvas canvas, Size size) {
-    canvas.drawRect(
-      Rect.fromCenter(
-        center: Offset(size.width * 0.5, size.height * 0.5),
-        width: size.width,
-        height: size.height,
-      ),
-      Paint()..color = Colors.black,
-    );
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // paintBackground(canvas, size);
-    drawAbstractShapes(canvas, size);
-    final paint = Paint();
-    drawContrastingBlobs(canvas, size, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return oldDelegate != this;
   }
 }
-*/
