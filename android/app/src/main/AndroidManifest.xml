@@ -6,28 +6,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="Analytics Sample">
-        <receiver
-            android:name=".AccountDetailWidget"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/account_detail_widget_info" />
-        </receiver>
-        <receiver
-            android:name=".AppInfoWidget"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/app_info_widget_info" />
-        </receiver>
 
         <activity
             android:name=".MainActivity"
@@ -52,6 +30,22 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+            <!--https://learnbloc.page.link-->
+            <!-- Scheme+host filter -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+
+
+                    android:scheme="https" 
+                  
+                    android:host="learnbloc.page.link" 
+                />
             </intent-filter>
         </activity>
         <!--

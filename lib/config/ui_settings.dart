@@ -4,7 +4,7 @@ const outerRadius = 18.0;
 
 const defaultPadding = 8.0;
 
-const gridSpacing = 8.0;
+const gridSpacing = 16.0;
 
 EdgeInsetsGeometry get defaultPaddingValue =>
     const EdgeInsets.all(defaultPadding);

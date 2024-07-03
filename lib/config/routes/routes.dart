@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../main.dart';
 import '../../modules/payment/bloc/payment_bloc.dart';
 import '../../modules/register/screens/register_screen.dart';
 import '../../modules/transfer/bloc/transfer_bloc.dart';
@@ -16,7 +15,7 @@ import '../../utils/ui/animations/router/push_animation_pageroute.dart';
 class AppRoute {
   static final routes = <String, WidgetBuilder>{
     '/sso': (_) => const SplashScreen(),
-    '/setpin': (_) => const SetPin(),
+
     '/register': (_) => const RegisterScreen(),
     '/home': (_) => const DashBoard(),
     '/user': (_) => const UserScreen(),
@@ -66,6 +65,7 @@ class AppRoute {
         ),
       );
     }
+
     if (routeName == '/home') {
       return PageRouteBuilder(
         settings: routeSettings,
@@ -73,6 +73,7 @@ class AppRoute {
             Builder(builder: route),
       );
     }
+
     return MaterialPageRoute(
       settings: routeSettings,
       builder: route,

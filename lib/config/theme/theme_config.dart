@@ -1,30 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'dark_theme.dart';
-import 'light_theme.dart';
 import '../../utils/services/firebae/firebase_analytics_service.dart';
 
-class SwitchThemeCubit extends Cubit<ThemeData> {
+class SwitchThemeCubit extends Cubit<ThemeMode> {
   /// Constructor.
-  SwitchThemeCubit({required this.initialTheme}) : super(initialTheme);
+  SwitchThemeCubit(super.initialState);
 
   /// Initial theme will provide by schedulerBinding.
-  final ThemeData initialTheme;
+  // final ThemeData _initialTheme;
 
   final AnalyticsService _analyticsService = AnalyticsService();
 
   void setUserTheme() async {
     await _analyticsService.setUserProperty(
       name: 'app_theme',
-      value: state == lightTheme ? 'light_mode' : 'dark_mode',
+      value: state == ThemeMode.light ? 'light_mode' : 'dark_mode',
     );
   }
 
-  bool get isDarkMode => state == darkTheme;
+  bool get isDarkMode => state == ThemeMode.dark;
 
   /// Switches the theme
   void switchTheme() {
-    state == lightTheme ? emit(darkTheme) : emit(lightTheme);
+    state == ThemeMode.light ? emit(ThemeMode.dark) : emit(ThemeMode.light);
     setUserTheme();
   }
 }

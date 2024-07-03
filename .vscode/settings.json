@@ -1,3 +1,4 @@
 {
-    "dart.flutterSdkPath": "~/FlutterSdk/flutter_stable"   
+    "dart.flutterSdkPath": "~/FlutterSdk/flutter_stable",
+    "python.analysis.typeCheckingMode": "basic"
 }

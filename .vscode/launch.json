@@ -13,7 +13,7 @@
         {
             "name": "firebase_analytics_sample",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
         },
         {
             "name": "firebase_analytics_sample (profile mode)",
